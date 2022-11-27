@@ -5,17 +5,13 @@ $i = 0;
 
 @section('content')
 
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Laravel 9 CRUD with Image Upload Example from scratch - codequs.com</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('products.create') }}"> Create New Product</a>
-            </div>
-        </div>
+    <div class="d-flex justify-content-center">
+        <h2>Product CRUD</h2>
     </div>
-
+    <div class="d-grid gap-3 d-md-block">
+        <a class="btn btn-success" href="{{ route('products.create') }}"> Create New Product</a>
+        <a class="btn btn-success" href="{{ route('orders.index') }}"> View order</a>
+    </div>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -42,20 +38,23 @@ $i = 0;
                 <td>
                     <form action="{{ route('products.destroy',$product->id) }}" method="POST">
 
-                        <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Show</a>
+                        <a class="btn btn-info btn-sm" href="{{ route('products.show',$product->id) }}">Show</a>
 
-                        <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Edit</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('products.edit',$product->id) }}">Edit</a>
+
+                        <a class="btn btn-success btn-sm"
+                           href="{{ route('products.order',['product_id'=>$product->id]) }}">Order</a>
 
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </td>
             </tr>
         @endforeach
     </table>
 
-{{--    {!! $products->links() !!}--}}
+    {{--    {!! $products->links() !!}--}}
 
 @endsection

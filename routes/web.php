@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\MemberController;
+use App\Http\Controllers\OrderController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +18,9 @@ use App\Http\Controllers\MemberController;
 Route::get('/', function () {
     return view('welcome');
 });
-//Route::get('/products',[ProductController::class,'index']);
 Route::resource("/products", ProductController::class);
-Route::resource("/member", MemberController::class);
-//Route::resource('products', ProductController::class);
-Route::get('/users',[UserController::class, 'index']);
-Route::resource("/student", StudentController::class);
+Route::view("/order/{product_id}", 'product.order')->name('products.order');
+Route::resource("/orders", OrderController::class);
+
+//Route::view("/edit/{product_id}", 'orders.edit')->name('orders.edit');
+

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+/**
+ * @method static add(string $f)
+ */
+class Orders extends Model
 {
     use HasFactory;
-    protected $table = 'products';
-//    protected $primaryKey = 'id';
-    protected $fillable = [
-        'title',
-        'description',
-        'image',
-        'price',
-    ];
 
+    protected $fillable = [
+        'qty',
+        'order_date_time',
+        'product_id'
+    ];
 }

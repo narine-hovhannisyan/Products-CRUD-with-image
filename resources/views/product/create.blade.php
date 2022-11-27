@@ -7,10 +7,11 @@
                 <h2>Add New Product</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
+                <a class="btn btn-success" href="{{ route('products.index') }}"> Back</a>
             </div>
         </div>
     </div>
+
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -36,7 +37,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Description:</strong>
-                    <textarea class="form-control" style="height:150px" name="description" placeholder="Descrition"></textarea>
+                    <textarea class="form-control" style="height:100px" name="description" placeholder="Descrition"></textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -52,7 +53,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
 

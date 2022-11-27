@@ -3,111 +3,80 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-///
-//* Display a listing of the resource.
-//*
-//* @return \Illuminate\Http\Response
-//*/
+//1
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::get();
         return view('product.index', compact('products'));
     }
 
-///
-//* Show the form for creating a new resource.
-//*
-//* @return \Illuminate\Http\Response
-//*/
+    //2
     public function create()
     {
         return view('product.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+    //3
     public function store(Request $request)
     {
         $request->validate([
+
             'title' => 'required|max:255',
             'description' => 'required',
             'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:1',
 
         ]);
         $input = $request->all();
-
         if ($image = $request->file('image')) {
 
-
-            $fileName = time().'_'.$image->getClientOriginalName();
+            $fileName = time() . '_' . $image->getClientOriginalName();
             $path = $image->storeAs('images', $fileName, 'public');
-//            $destinationPath = 'images/';
-//            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-//         $file = $image->move($destinationPath, $profileImage);
-             $input['image'] =$path;
+            $input['image'] = $path;
+
         }
 
         Product::create($input);
 
         return redirect()->route('products.index')
-            ->with('success','Product created successfully.');
+            ->with('success', 'Product created successfully.');
     }
-///
-//* Display the specified resource.
-//*
-//* @param int $id
-//* @return \Illuminate\Http\Response
-//*/
+
+//4
     public function show(Product $product)
     {
         return view('product.show', compact('product'))
             ->with('success', 'Product created successfully.');
     }
-//
-///
-//* Show the form for editing the specified resource.
-//*
-//* @param int $id
-//* @return \Illuminate\Http\Response
-//*/
+
+//5
     public function edit(Product $product)
     {
         return view('product.edit', compact('product'));
     }
 
-///
-//* Update the specified resource in storage.
-//*
-//* @param \Illuminate\Http\Request $request
-//* @param int $id
-//* @return \Illuminate\Http\Response
-//*/
+//6
     public function update(Request $request, Product $product)
     {
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:1',
 
         ]);
         $input = $request->all();
 
         if ($image = $request->file('image')) {
-            $destinationPath = 'images/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $input['image'] = "$profileImage";
-        }else{
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs('images', $fileName, 'public');
+            $input['image'] = $path;
+        } else {
             unset($input['image']);
         }
         $product->update($input);
@@ -117,12 +86,31 @@ class ProductController extends Controller
 
     }
 
-///
-//* Remove the specified resource from storage.
-//*
-//* @param int $id
-//* @return \Illuminate\Http\Response
-//*/
+//7
+    public function order()
+    {
+        return view('product.order');
+    }
+
+//    public function addOrder(Request $request, int $product_id)
+//    {
+//
+//        $data = $request->validate([
+//            'qty' => 'required|max:255',
+//            'order_date_time' => 'required',
+//        ]);
+//
+////        var_dump($product_id);
+////        dd($data -> {$product_id});
+//        $f = $data['qty'] . ' ' . $data['order_date_time'] . ' ' . $product_id;
+////        dd($f);
+//         (new \App\Models\Orders)->get($f);
+//        return redirect()->route('orders.index')
+//            ->with('success', 'Product updated successfully');
+//
+//    }
+
+//8
     public function destroy(Product $product)
     {
         $product->delete();
